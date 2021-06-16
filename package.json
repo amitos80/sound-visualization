@@ -1,0 +1,26 @@
+{
+  "name": "next-js-tailwind",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "web": "next dev",
+    "server": "node ./server/bitsimulator.js",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@types/jquery.simulate": "^0.0.30",
+    "lodash": "^4.17.21",
+    "next": "^9.3.2",
+    "node-microphone": "^0.1.5",
+    "puppeteer": "^7.1.0",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "react-fluid-animation": "^1.0.1"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.0.6",
+    "autoprefixer": "^9.7.4",
+    "tailwindcss": "^1.1.4"
+  }
+}
