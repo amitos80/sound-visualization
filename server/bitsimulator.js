@@ -10,26 +10,26 @@ const randomNumber = (min, max) => Math.floor(Math.random() * (max - min) + min)
     const el = await page.$('.erd_scroll_detection_container > div');
     const box = await el.boundingBox();
 
-    let factor = Math.floor(Math.abs(122 - Math.floor(intensity)) ) || 2;
+    let factor = Math.floor(Math.abs(123 - Math.floor(intensity)) ) || 0;
 
     await page.mouse.down();
     await page.mouse.move(box.x + (box.width / 2), box.y + (box.height /  2));
 
-    if(factor > 3) {
+    if(factor > 4) {
+        await page.mouse.move(box.x + (box.width / 2) - factor, box.y + (box.height /  2) - factor);
         await page.mouse.move(box.x + (box.width / 2) - factor, box.y + (box.height /  2) - factor);
         //await page.mouse.down();
+        await page.mouse.move(box.x + (box.width / 2) + factor, box.y + (box.height /  2) + factor);
         await page.mouse.move(box.x + (box.width / 2) + factor, box.y + (box.height /  2) + factor);
         //await page.mouse.down();
     }
 
-    await page.mouse.up();
-    const x = randomNumber(200, 1280);
-    const y = randomNumber(200,  720);
+    // await page.mouse.up();
 
-    await page.mouse.down();
+    // await page.mouse.down();
 
-    for(let i = 0; i < factor ; i++) {
-        await page.mouse.move(x+ Math.floor(factor*i), y + Math.floor(factor*i));
+    for(let i = 0; i < factor * 2 ; i++) {
+        await page.mouse.move(randomNumber(200, 1280), randomNumber(200,  720));
     }
 
     await page.mouse.up();
