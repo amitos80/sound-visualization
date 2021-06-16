@@ -10,5 +10,11 @@ instructions:
     5. aloow in browser to use the microphone
     6. as chrome doesnt allow mic in localhost youl need to do this -> https://medium.com/@Carmichaelize/enabling-the-microphone-camera-in-chrome-for-local-unsecure-origins-9c90c3149339
 
-
+**technologies:**
+    
+    js
+    Modejs
+    Reactjs 
+    nextjs
+    puppeteer
 

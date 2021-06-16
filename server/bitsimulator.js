@@ -86,32 +86,16 @@ class EchoStream extends Stream.Writable {
     micStream.on('data',async d => {
         const signals = [...d]
         const avg = _.meanBy(signals, v => v)
-        if(avg > 124) {
-            const points = avg - 126;
-            for(let i = 0; i < points; i+=80) {
-                await pointBit(page, avg);
+        if(avg > 125) {
+            for(let i = 0; i < signals.length; i+=532) {
+                 pointBit(page, avg);
             }
+
         }
-
-
     });
+
     micStream.on('end', () => {
         const buf = Buffer.concat(bufs);
     })
-
-
-    //mic.stopRecording();
-
-
-    //pointBit(page);
-
-
-
-    // setTimeout(async () => {
-    //
-    //     await browser.close();
-    //     // clearInterval(interval)
-    //
-    // }, 5000)
 
 })();
