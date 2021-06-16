@@ -10,7 +10,6 @@ const randomNumber = (min, max) => Math.floor(Math.random() * (max - min) + min)
     const el = await page.$('.erd_scroll_detection_container > div');
     const box = await el.boundingBox();
 
-    console.log('intensity -> ', intensity);
     const factor = Math.floor(Math.abs(126 - Math.floor(intensity)) > 6 ? 8 : 1);
 
     await page.mouse.move(box.x + (box.width / 2), box.y + (box.height /  2));
