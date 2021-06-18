@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "web": "next dev",
-    "server": "node ./server/bitsimulator.js",
+    "server": "node ./server/pupetierplayer.js",
     "build": "next build",
     "start": "next start"
   },
@@ -16,7 +16,8 @@
     "puppeteer": "^7.1.0",
     "react": "16.9.0",
     "react-dom": "16.9.0",
-    "react-fluid-animation": "^1.0.1"
+    "react-fluid-animation": "^1.0.1",
+    "react-toastify": "^7.0.4"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.0.6",

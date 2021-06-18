@@ -14,21 +14,25 @@ const randomNumber = (min, max) => Math.floor(Math.random() * (max - min) + min)
 
     await page.mouse.down();
     await page.mouse.move(box.x + (box.width / 2), box.y + (box.height /  2));
+    await page.mouse.up();
 
-    if(factor > 4) {
+    if(factor > 6) {
+        await page.mouse.down();
+
         await page.mouse.move(box.x + (box.width / 2) - factor, box.y + (box.height /  2) - factor);
-        await page.mouse.move(box.x + (box.width / 2) - factor, box.y + (box.height /  2) - factor);
-        //await page.mouse.down();
         await page.mouse.move(box.x + (box.width / 2) + factor, box.y + (box.height /  2) + factor);
-        await page.mouse.move(box.x + (box.width / 2) + factor, box.y + (box.height /  2) + factor);
-        //await page.mouse.down();
+
+        await page.mouse.up();
     }
 
     // await page.mouse.up();
 
-    // await page.mouse.down();
+    await page.mouse.down();
 
-    for(let i = 0; i < factor * 2 ; i++) {
+    const iterations = factor > 80 ? Math.floor(factor / 33) : 0;
+    // console.log('factor -> ', factor);
+
+    for(let i = 0; i < iterations ; i++) {
         await page.mouse.move(randomNumber(200, 1280), randomNumber(200,  720));
     }
 
@@ -85,13 +89,22 @@ class EchoStream extends Stream.Writable {
     let micStream = mic.startRecording();
     micStream.on('data',async d => {
         const signals = [...d]
-        const avg = _.meanBy(signals, v => v)
-        if(avg > 125) {
-            for(let i = 0; i < signals.length; i+=532) {
-                 pointBit(page, avg);
-            }
+        const avg = _.meanBy(signals.slice(Math.max(signals.length - 5, 1)), v => v)
+        await pointBit(page, Math.floor(avg));
 
-        }
+        // if(avg > 122) {
+        //
+        //
+        //     let sum = 0;
+        //     pointBit(page, Math.floor(sum / 10));
+        //     for(let i = signals.length - 1; i > signals.length - 11; i--) {
+        //         sum += signals[i];
+        //         if (i % 220 === 0) {
+        //
+        //             sum = 0;
+        //         }
+        //     }
+        // }
     });
 
     micStream.on('end', () => {
