@@ -57,14 +57,15 @@ export class Home extends React.Component {
 
     randomStyle() {
         const { configs } = this.state;
+
         configs.push({
-            textureDownsample: randomWhole(1, 2),
-            densityDissipation: randomReal(0.9, 1),
-            velocityDissipation: randomReal(0.9, 1),
-            pressureDissipation: randomReal(0, 1),
-            pressureIterations: randomWhole(1, 60),
-            curl: randomWhole(0, 40),
-            splatRadius: randomReal(0.001, 0.02),
+            textureDownsample: randomWhole(0, 3),
+            densityDissipation: randomReal(0.9, 1.000000000000001),
+            velocityDissipation: randomReal(0.9, 1.000000000000001),
+            pressureDissipation: randomReal(0, 1.000000000000001),
+            pressureIterations: randomWhole(1, 61),
+            curl: randomWhole(4, 41),
+            splatRadius: randomReal(0.001, 0.021),
         })
         const newIndex = configs.length -1;
         this.setState({

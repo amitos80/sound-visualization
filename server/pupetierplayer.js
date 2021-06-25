@@ -6,6 +6,26 @@ const _ = require('lodash');
 
 const randomNumber = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
+
+/// test this func
+function noiseLevel(inputSamples) {
+    let average = _.meanBy(inputSamples, v => v) / inputSamples.length;
+    const power = inputSamples.reduce((acc, val) => acc + Math.pow(val - average, 2))
+    return Math.sqrt(power);
+}
+
+function findTone(inputSamples) {
+    const sampleRate = 44100; // Or whatever in use (Hz)
+    const tone = 500; // tone to detect in Hz
+    const sin500Hz = inputSamples.map((val, i) => Math.sin(2*Math.PI*tone/sampleRate*i)/Math.sqrt(inputSamples.length));
+    const cos500Hz = inputSamples.map((val, i) => Math.cos(2*Math.PI*tone/sampleRate*i)/Math.sqrt(inputSamples.length));
+    
+    const amplitudeSin = _.meanBy(inputSamples, (val, i) => val * sin500Hz[i]);
+    const amplitudeCos = _.meanBy(inputSamples, (val, i) => val * cos500Hz[i]);
+
+    return Math.sqrt(amplitudeSin*amplitudeSin + amplitudeCos*amplitudeCos);
+}
+
  async function pointBit(page, intensity) {
     const el = await page.$('.erd_scroll_detection_container > div');
     const box = await el.boundingBox();
