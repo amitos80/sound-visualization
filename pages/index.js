@@ -12,6 +12,15 @@ export class Home extends React.Component {
     constructor(props) {
         super(props);
         const configs =[{
+            textureDownsample: 1,
+            densityDissipation: 0.98,
+            velocityDissipation: 0.99,
+            pressureDissipation: 0.8,
+            pressureIterations: 25,
+            curl: 30,
+            splatRadius: 0.005
+        },
+        {
             textureDownsample: 2,
             densityDissipation: 0.9,
             velocityDissipation: 0.91,
@@ -57,15 +66,14 @@ export class Home extends React.Component {
 
     randomStyle() {
         const { configs } = this.state;
-
         configs.push({
-            textureDownsample: randomWhole(0, 3),
-            densityDissipation: randomReal(0.9, 1.000000000000001),
-            velocityDissipation: randomReal(0.9, 1.000000000000001),
-            pressureDissipation: randomReal(0, 1.000000000000001),
+            textureDownsample: randomWhole(1, 3),
+            densityDissipation: randomReal(0.9, 0.99),
+            velocityDissipation: randomReal(0.9, 0.99),
+            pressureDissipation: randomReal(0.1, 0.9),
             pressureIterations: randomWhole(1, 61),
-            curl: randomWhole(4, 41),
-            splatRadius: randomReal(0.001, 0.021),
+            curl: randomWhole(15, 35),
+            splatRadius: randomReal(0.003, 0.007),
         })
         const newIndex = configs.length -1;
         this.setState({
