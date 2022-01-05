@@ -1,0 +1,7 @@
+{
+    "log": {
+        "name": "PlayerService",
+        "level": "info",
+        "format": "short"
+    }
+}

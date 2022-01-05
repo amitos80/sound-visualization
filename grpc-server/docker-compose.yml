@@ -1,0 +1,9 @@
+version: "2"
+services:
+  node-grpc-boilerplate:
+    container_name: node-grpc
+    build: .
+    ports:
+     - "50051:50051"
+    expose:
+     - "50051"
