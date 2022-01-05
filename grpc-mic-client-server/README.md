@@ -1,11 +1,13 @@
-**Liquidish shapes in vivid colors**
+
+# browser streams over grpc sound to server
 
 ## App layout
 
 - [package.json](./package.json) - Dependencies and node build scripts
 - [compile-proto.sh](./compile-proto.sh) - The proto compiler script
 - [proto/](./proto/) - Protobuf definitions and generated types
-
+- [server.ts](./server.ts) - The grpc server
+- [client.ts](./client.ts) - The grpc client
 
 ## Generating the Types
 
@@ -16,18 +18,20 @@ npm install
 
 ### Running the app
 
+(Note, docker is required to run the envoy proxy.)
+
 Run mic input client:
 
 ```bash
 npm install
 npm run build
-npm run dev
+python3 -m http.server 8081
 ```
 
-**technologies:**
+Run server:
 
-    js
-    Modejs
-    Reactjs
-    nextjs
-    puppeteer
+```bash
+npm install
+npm run build
+npm run start:server
+```
