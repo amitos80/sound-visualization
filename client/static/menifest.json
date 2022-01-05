@@ -1,0 +1,15 @@
+{
+  "name": "sound-visulizer",
+  "short_name": "sound-visulizer",
+  "display": "standalone",
+  "scope": "localhost",
+  "start_url": "/",
+  "background_color": "#fff",
+  "theme_color": "#ec1843",
+  "description": "some description",
+  "icons": [{
+    "src": "/favicon.ico",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
+}

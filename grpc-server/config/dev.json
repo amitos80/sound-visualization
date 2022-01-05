@@ -1,0 +1,10 @@
+{
+  "name": "PlayerService",
+  "host": "localhost",
+  "port": "50051",
+    "log": {
+      "name": "PlayerService",
+      "level": "info",
+      "format": "short"
+    }
+}

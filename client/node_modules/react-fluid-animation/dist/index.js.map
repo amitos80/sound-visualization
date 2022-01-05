@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.js"],"names":["ReactFluidAnimation"],"mappings":";;;;;;;;;;;;;;;;;;;AAAA;;AACA;;;;;;eAEeA,4B","sourcesContent":["import ReactFluidAnimation from './react-fluid-animation'\nimport FluidAnimation, { defaultConfig } from './fluid-animation'\n\nexport default ReactFluidAnimation\nexport { FluidAnimation, defaultConfig }\n"],"file":"index.js"}
