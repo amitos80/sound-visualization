@@ -1,1 +1,0 @@
-{"ast":null,"code":"export { playerClient as playerService } from './services/player';","map":null,"metadata":{},"sourceType":"module"}
