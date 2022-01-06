@@ -3,7 +3,7 @@ import { sum, take } from 'lodash'
 import puppeteer from 'puppeteer'
 import * as proto_chat_pb from './proto/chat_pb'
 
-const VIEW_WIDTH = 2440
+const VIEW_WIDTH = 2120
 const VIEW_HEIGHT = 1180
 
 const randomNumber = (min: number, max: number) =>

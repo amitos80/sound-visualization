@@ -4,7 +4,7 @@ import {ToastContainer, toast} from 'react-toastify'
 import { take, fill, sum, floor } from 'lodash'
 const COMPRESSION_FACTOR = 8
 
-const VIEW_WIDTH = 2440;
+const VIEW_WIDTH = 2120
 const VIEW_HEIGHT = 1180;
 
 const randomWhole = (min, max) => Math.floor(Math.random() * (max - min) + min)
