@@ -2,13 +2,15 @@ import { sum, take } from 'lodash'
 import puppeteer from 'puppeteer'
 import * as proto_chat_pb from './proto/chat_pb'
 
+const VIEW_WIDTH = 1920
+const VIEW_HEIGHT = 1180
+
 const randomNumber = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min) + min)
+    Math.floor(Math.random() * (max - min) + min)
 
 type Point = { x: number; y: number }
 
 export class PlayerService {
-  //public static serviceClassInstance: PlayerService;
   private static serviceClassInstance: PlayerService
   public browser: any
   public page: any
@@ -28,10 +30,10 @@ export class PlayerService {
       slowMo: 0,
     })
     PlayerService.getInstance().page =
-      await PlayerService.getInstance().browser.newPage()
+        await PlayerService.getInstance().browser.newPage()
     await PlayerService.getInstance().page.setViewport({
-      width: 1920,
-      height: 1080,
+      width: VIEW_WIDTH,
+      height: VIEW_HEIGHT,
     })
     await PlayerService.getInstance().page.goto('http://localhost:3000')
 
@@ -42,41 +44,24 @@ export class PlayerService {
     PlayerService.getInstance().ready = true
   }
 
+  randSign(intensity: number) {
+    return randomNumber(0, intensity) % 2 === 0 ? -1 : 1
+  }
+
   ensureCords({ x, y }: Point): Point {
-    return { x: Math.max(0, 1000), y: Math.max(0, 800) } as Point
-  }
-
-  async mouseUp() {
-    await PlayerService.getInstance().page.mouse.up()
-  }
-
-  async mouseMove(intensity: number) {
-    const x =
-      Math.floor(
-        Math.random() * (500 - PlayerService.getInstance().box.x) +
-          PlayerService.getInstance().box.x
-      ) + Math.floor(Math.random() * (intensity - 2) + 2)
-    const y =
-      Math.floor(
-        Math.random() * (500 - PlayerService.getInstance().box.x) +
-          PlayerService.getInstance().box.x
-      ) + Math.floor(Math.random() * (300 - 2) + 2)
-    //console.log('x ', x, ' y ', y, intensity);
-    const a = Math.min(x, 999)
-    const b = Math.max(y, 799)
-    await PlayerService.getInstance().page.mouse.move(a, b)
+    return { x: Math.max(0, VIEW_WIDTH), y: Math.max(0, VIEW_HEIGHT) } as Point
   }
 
   async pointBit(
-    clientMessage: any,
-    serverMessage: proto_chat_pb.ServerMessage
+      clientMessage: any,
+      serverMessage: proto_chat_pb.ServerMessage
   ) {
     if (!PlayerService.getInstance().page) return
     // console.log('pointBit YES Page clientMessage -> ', clientMessage);
     const response = new proto_chat_pb.ServerMessage()
     const sample =
-      clientMessage.array?.length &&
-      clientMessage.array[1]?.split(',').filter((n: any) => !isNaN(Number(n)))
+        clientMessage.array?.length &&
+        clientMessage.array[1]?.split(',').filter((n: any) => !isNaN(Number(n)))
     // console.log('sample ', sample?.length, ' sample ', sample);
     if (!sample?.length) return response
     const blockSize = Math.floor(sample?.length / 4)
@@ -89,51 +74,41 @@ export class PlayerService {
     sample.splice(0, blockSize)
     const a4 = take(sample, blockSize - 1)
 
-    const a = sum(a1.map((i) => Number(i))) / a1.length // bass / gain
-    const b = sum(a2.map((i) => Number(i))) / a2.length // bass / gain
-    const c = sum(a3.map((i) => Number(i))) / a3.length // bass / gain
-    const d = sum(a4.map((i) => Number(i))) / a4.length // bass / gain
-    //const intensity = Math.min(3, -17 * (500 / (1 - (a + b + c + d))));
-    const intensity = a + b + c + (d / 300) * 5
-    console.log('intensity ', Math.floor(intensity))
-    // await PlayerService.getInstance().page.mouse.move(
-    //   Math.floor(PlayerService.getInstance().box.width / 2),
-    //   Math.floor(PlayerService.getInstance().box.height / 2),
-    //   { steps: randomNumber(1, 768 / intensity) }
-    // )
+    const a = sum(a1.map((i) => Number(i))) / a1.length
+    const b = sum(a2.map((i) => Number(i))) / a2.length
+    const c = sum(a3.map((i) => Number(i) + 11)) / a3.length
+    const d = sum(a4.map((i) => Number(i) + 37)) / a4.length
+    const intensity = Math.floor(a + b + c + d)
+    if ((a < 70 && b < 70 && c < 54 && d < 63) || intensity < 172) {
+      return response
+    }
+    console.log('intensity ', intensity)
+    console.log('a ', a)
+    console.log('b ', b)
+    console.log('c ', c)
+    console.log('d ', d)
     await PlayerService.getInstance().page.mouse.down()
-    // for (let i = 0; intensity > 207 && i < Math.floor(intensity / 190); i++) {
-    // await PlayerService.getInstance().page.mouse.down();
-    //await this.mouseMove(intensity);
-
     await PlayerService.getInstance().page.mouse.move(
-      (randomNumber(0, intensity) % 3 === 0 ? -1 : 1) *
+        this.randSign(intensity) *
         Math.floor(
-          PlayerService.getInstance().box.width / 2 +
-            randomNumber(0, intensity * 0.05)
+            PlayerService.getInstance().box.width / 2 +
+            randomNumber(11, intensity)
         ),
-      Math.floor(
-        (randomNumber(0, intensity) % 3 === 0 ? -1 : 1) *
-          (PlayerService.getInstance().box.height / 2) +
-          randomNumber(0, intensity * 0.05)
-      ),
-      {
-        steps:
-          intensity > 242
-            ? randomNumber(1, 768 / intensity)
-            : randomNumber(1, 420 / intensity),
-      }
+        Math.floor(
+            this.randSign(intensity) *
+            (PlayerService.getInstance().box.height / 2) +
+            randomNumber(22, intensity)
+        ),
+        {
+          steps:
+              intensity > 242
+                  ? randomNumber(1, 970 / intensity)
+                  : randomNumber(1, 620 / intensity),
+          // ? randomNumber(1, 470 / intensity)
+          // : randomNumber(1, 320 / intensity),
+        }
     )
-    // }
     await PlayerService.getInstance().page.mouse.up()
-
     return response
   }
 }
-
-// new Promise(async (resolve, reject) => {
-//   const player = new Pupetierplayer()
-//   await player.init()
-// })
-//   .then((r) => console.log('r -> ', r))
-//   .catch((e) => console.log('e -> ', e))
