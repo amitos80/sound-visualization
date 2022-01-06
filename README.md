@@ -1,6 +1,6 @@
-**Liquidish shapes in vivid colors changing to the beat**
+# Liquidish shapes in vivid colors changing to the beat
 
-# client: liquid animation canvas (localhost:3000)
+**client: liquid animation canvas (localhost:3000)**
 
     ## Generating the Types
     ```sh
@@ -8,7 +8,14 @@
     ./compile-proto.sh
     ```
 
-# grpc-mic-client-server: browser (localhost:8081) streams over grpc sound to server, server uses puppetier to trigger events on canvas (localhost:3000)
+    ## Run mic input client:
+    ```bash
+        cd client
+        npm install
+        npm run dev
+    ```
+
+**grpc-mic-client-server: browser (localhost:8081) streams over grpc sound to server, server uses puppetier to trigger events on canvas (localhost:3000)**
 
     ## Generating the Types
     ```sh

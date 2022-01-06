@@ -37,53 +37,53 @@ async function init(user: string) {
     }
   }
   navigator.mediaDevices
-      .getUserMedia({
-        audio: true,
+    .getUserMedia({
+      audio: true,
+    })
+    .then(function (stream) {
+      if (!wave) {
+        wave = new Wave()
+      }
+      wave.fromStream(stream, 'visual-canvas', {
+        type: 'shine',
+        colors: ['red', 'white', 'blue'],
       })
-      .then(function (stream) {
-        if (!wave) {
-          wave = new Wave()
-        }
-        wave.fromStream(stream, 'visual-canvas', {
-          type: 'shine',
-          colors: ['red', 'white', 'blue'],
-        })
-        if (interval) {
-          clearInterval(interval)
-        }
-        interval = setInterval(tick, 7)
-      })
-      .catch(function (err) {
-        console.log(err.message)
-      })
+      if (interval) {
+        clearInterval(interval)
+      }
+      interval = setInterval(tick, 7)
+    })
+    .catch(function (err) {
+      console.log(err.message)
+    })
 
   function sendMessage(message: string) {
     const clientMessage = new ClientMessage()
     clientMessage.setUser(user)
     clientMessage.setText(message)
     client.send(
-        clientMessage,
-        undefined,
-        (err: GrpcWebError, response: ServerMessage) => {
-          if (err) {
-            console.error(err)
-            return
-          }
-
-          // console.log('response', response.toObject());
+      clientMessage,
+      undefined,
+      (err: GrpcWebError, response: ServerMessage) => {
+        if (err) {
+          console.error(err)
+          return
         }
+
+        // console.log('response', response.toObject());
+      }
     )
   }
 
   document.getElementById('submit-message')?.addEventListener(
-      'submit',
-      (e) => {
-        e.preventDefault()
-        const message =
-            (document.getElementById('message') as HTMLFormElement)?.value ||
-            'a b c'
-        sendMessage(message)
-      },
-      false
+    'submit',
+    (e) => {
+      e.preventDefault()
+      const message =
+        (document.getElementById('message') as HTMLFormElement)?.value ||
+        'a b c'
+      sendMessage(message)
+    },
+    false
   )
 }

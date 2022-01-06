@@ -1,0 +1,13 @@
+{
+  "name": "sound-visulizer",
+  "description": "Liquidish shapes in vivid colors changing to the beat",
+  "version": "1.1.0",
+  "prettier": {
+    "trailingComma": "all",
+    "bracketSpacing": false,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "arrowParens": "always"
+  }
+}

@@ -1,12 +1,13 @@
 import { sum, take } from 'lodash'
+// @ts-ignore
 import puppeteer from 'puppeteer'
 import * as proto_chat_pb from './proto/chat_pb'
 
-const VIEW_WIDTH = 1920
+const VIEW_WIDTH = 2440
 const VIEW_HEIGHT = 1180
 
 const randomNumber = (min: number, max: number) =>
-    Math.floor(Math.random() * (max - min) + min)
+  Math.floor(Math.random() * (max - min) + min)
 
 type Point = { x: number; y: number }
 
@@ -30,7 +31,7 @@ export class PlayerService {
       slowMo: 0,
     })
     PlayerService.getInstance().page =
-        await PlayerService.getInstance().browser.newPage()
+      await PlayerService.getInstance().browser.newPage()
     await PlayerService.getInstance().page.setViewport({
       width: VIEW_WIDTH,
       height: VIEW_HEIGHT,
@@ -53,15 +54,15 @@ export class PlayerService {
   }
 
   async pointBit(
-      clientMessage: any,
-      serverMessage: proto_chat_pb.ServerMessage
+    clientMessage: any,
+    serverMessage: proto_chat_pb.ServerMessage
   ) {
     if (!PlayerService.getInstance().page) return
     // console.log('pointBit YES Page clientMessage -> ', clientMessage);
     const response = new proto_chat_pb.ServerMessage()
     const sample =
-        clientMessage.array?.length &&
-        clientMessage.array[1]?.split(',').filter((n: any) => !isNaN(Number(n)))
+      clientMessage.array?.length &&
+      clientMessage.array[1]?.split(',').filter((n: any) => !isNaN(Number(n)))
     // console.log('sample ', sample?.length, ' sample ', sample);
     if (!sample?.length) return response
     const blockSize = Math.floor(sample?.length / 4)
@@ -89,24 +90,24 @@ export class PlayerService {
     console.log('d ', d)
     await PlayerService.getInstance().page.mouse.down()
     await PlayerService.getInstance().page.mouse.move(
-        this.randSign(intensity) *
+      this.randSign(intensity) *
         Math.floor(
-            PlayerService.getInstance().box.width / 2 +
+          PlayerService.getInstance().box.width / 2 +
             randomNumber(11, intensity)
         ),
-        Math.floor(
-            this.randSign(intensity) *
-            (PlayerService.getInstance().box.height / 2) +
-            randomNumber(22, intensity)
-        ),
-        {
-          steps:
-              intensity > 242
-                  ? randomNumber(1, 970 / intensity)
-                  : randomNumber(1, 620 / intensity),
-          // ? randomNumber(1, 470 / intensity)
-          // : randomNumber(1, 320 / intensity),
-        }
+      Math.floor(
+        this.randSign(intensity) *
+          (PlayerService.getInstance().box.height / 2) +
+          randomNumber(22, intensity)
+      ),
+      {
+        steps:
+          intensity > 242
+            ? randomNumber(1, 970 / intensity)
+            : randomNumber(1, 620 / intensity),
+        // ? randomNumber(1, 470 / intensity)
+        // : randomNumber(1, 320 / intensity),
+      }
     )
     await PlayerService.getInstance().page.mouse.up()
     return response
