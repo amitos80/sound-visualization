@@ -51,7 +51,7 @@ async function init(user: string) {
       if (interval) {
         clearInterval(interval)
       }
-      interval = setInterval(tick, 2)
+      interval = setInterval(tick, 10)
     })
     .catch(function (err) {
       console.log(err.message)

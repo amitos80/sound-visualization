@@ -3,8 +3,8 @@ import { sum, take } from 'lodash'
 import puppeteer from 'puppeteer'
 import * as proto_chat_pb from './proto/chat_pb'
 
-const VIEW_WIDTH = 2120
-const VIEW_HEIGHT = 1180
+const VIEW_WIDTH = 1700
+const VIEW_HEIGHT = 1080
 
 const randomNumber = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min) + min)
@@ -80,14 +80,14 @@ export class PlayerService {
     const c = sum(a3.map((i) => Number(i) + 11)) / a3.length
     const d = sum(a4.map((i) => Number(i) + 37)) / a4.length
     const intensity = Math.floor(a + b + c + d)
-    if ((a < 75 && b < 77 && c < 60 && d < 65) || intensity < 279) {
+    if ((a < 75 && b < 77 && c < 60 && d < 65) || intensity < 202) {
       return response
     }
-    console.log('intensity ', intensity)
-    console.log('a ', a)
-    console.log('b ', b)
-    console.log('c ', c)
-    console.log('d ', d)
+    // console.log('intensity ', intensity)
+    // console.log('a ', a)
+    // console.log('b ', b)
+    // console.log('c ', c)
+    // console.log('d ', d)
     await PlayerService.getInstance().page.mouse.down(PlayerService.getInstance().box.width / 2), (PlayerService.getInstance().box.height / 2)
     await PlayerService.getInstance().page.mouse.move(
       this.randSign(intensity) *
@@ -103,8 +103,8 @@ export class PlayerService {
       {
         steps:
           intensity > 339
-            ? randomNumber(1, 770 / intensity)
-            : randomNumber(1, 580 / intensity),
+            ? randomNumber(1, 570 / intensity)
+            : randomNumber(1, 480 / intensity),
         // ? randomNumber(1, 470 / intensity)
         // : randomNumber(1, 320 / intensity),
       }
