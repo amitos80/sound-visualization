@@ -80,7 +80,7 @@ export class PlayerService {
     const c = sum(a3.map((i) => Number(i) + 11)) / a3.length
     const d = sum(a4.map((i) => Number(i) + 37)) / a4.length
     const intensity = Math.floor(a + b + c + d)
-    if ((a < 70 && b < 70 && c < 54 && d < 63) || intensity < 172) {
+    if ((a < 75 && b < 77 && c < 60 && d < 65) || intensity < 279) {
       return response
     }
     console.log('intensity ', intensity)
@@ -88,7 +88,7 @@ export class PlayerService {
     console.log('b ', b)
     console.log('c ', c)
     console.log('d ', d)
-    await PlayerService.getInstance().page.mouse.down()
+    await PlayerService.getInstance().page.mouse.down(PlayerService.getInstance().box.width / 2), (PlayerService.getInstance().box.height / 2)
     await PlayerService.getInstance().page.mouse.move(
       this.randSign(intensity) *
         Math.floor(
@@ -102,9 +102,9 @@ export class PlayerService {
       ),
       {
         steps:
-          intensity > 242
-            ? randomNumber(1, 970 / intensity)
-            : randomNumber(1, 620 / intensity),
+          intensity > 339
+            ? randomNumber(1, 770 / intensity)
+            : randomNumber(1, 580 / intensity),
         // ? randomNumber(1, 470 / intensity)
         // : randomNumber(1, 320 / intensity),
       }
