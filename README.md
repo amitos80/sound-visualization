@@ -1,5 +1,14 @@
 # Liquidish shapes in vivid colors changing to the beat
 
+
+**running instructions**
+1. run proxy server at 8081 
+2. npm run start:client
+3. cd client && npm run dev
+4. cd grpc-mic-client-server && npm run start:server
+
+
+*first time run (compiling grpc proto and build)*
 **client: liquid animation canvas (localhost:3000)**
 
     ## Generating the Types
