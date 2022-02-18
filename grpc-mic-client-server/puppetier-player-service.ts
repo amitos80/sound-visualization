@@ -1,10 +1,12 @@
 import { sum, take } from 'lodash'
 // @ts-ignore
 import puppeteer from 'puppeteer'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import config from '../.config.json'
 import * as proto_chat_pb from './proto/chat_pb'
 
-const VIEW_WIDTH = 1700
-const VIEW_HEIGHT = 1080
+const { VIEW_WIDTH, VIEW_HEIGHT } = config
 
 const randomNumber = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min) + min)
@@ -80,31 +82,55 @@ export class PlayerService {
     const c = sum(a3.map((i) => Number(i) + 11)) / a3.length
     const d = sum(a4.map((i) => Number(i) + 37)) / a4.length
     const intensity = Math.floor(a + b + c + d)
-    if ((a < 75 && b < 77 && c < 60 && d < 65) || intensity < 202) {
+    const boostLows = a + b > 102 ? 1.5 : 1
+    const boostHighs = c + d > 125 ? 2.4 : 1
+
+    console.log(
+      ' intensity ',
+      intensity,
+      ' boostLows ',
+      boostLows,
+      ' boostHighs ',
+      boostHighs
+    )
+
+    if (
+      (boostLows === 1 &&
+        boostHighs === 1 &&
+        a < 75 &&
+        b < 77 &&
+        c < 60 &&
+        d < 65) ||
+      intensity < 140
+    ) {
       return response
     }
     // console.log('intensity ', intensity)
     // console.log('a ', a)
     // console.log('b ', b)
+    //console.log('a + b ', a + b)
     // console.log('c ', c)
     // console.log('d ', d)
-    await PlayerService.getInstance().page.mouse.down(PlayerService.getInstance().box.width / 2), (PlayerService.getInstance().box.height / 2)
+    ///console.log('c + d ', c + d)
+    await PlayerService.getInstance().page.mouse.down(
+      PlayerService.getInstance().box.width / 2
+    ),
+      PlayerService.getInstance().box.height / 2
     await PlayerService.getInstance().page.mouse.move(
       this.randSign(intensity) *
         Math.floor(
           PlayerService.getInstance().box.width / 2 +
-            randomNumber(11, intensity)
+            randomNumber(2, intensity * boostHighs * boostLows)
         ),
       Math.floor(
         this.randSign(intensity) *
           (PlayerService.getInstance().box.height / 2) +
-          randomNumber(22, intensity)
+          randomNumber(2, intensity * boostHighs * boostLows)
       ),
       {
-        steps:
-          intensity > 339
-            ? randomNumber(1, 570 / intensity)
-            : randomNumber(1, 480 / intensity),
+        steps: Math.floor(intensity / 77), // > 235 ? 2 : 1,
+        //randomNumber(1, (290 * boostHighs) / intensity)
+        //randomNumber(1, (260 * boostHighs) / intensity),
         // ? randomNumber(1, 470 / intensity)
         // : randomNumber(1, 320 / intensity),
       }
