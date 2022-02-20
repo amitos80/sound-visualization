@@ -7,6 +7,7 @@ import { Wave } from './wave/'
 
 let user: string
 let interval: any = null
+const TICK_INTERVAL = 3
 
 window.addEventListener('DOMContentLoaded', () => {
   init(user)
@@ -51,7 +52,7 @@ async function init(user: string) {
       if (interval) {
         clearInterval(interval)
       }
-      interval = setInterval(tick, 10)
+      interval = setInterval(tick, TICK_INTERVAL)
     })
     .catch(function (err) {
       console.log(err.message)

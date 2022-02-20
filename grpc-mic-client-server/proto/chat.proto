@@ -5,6 +5,10 @@ package chat_package;
 message ServerMessage {
   string user = 1;
   string text = 2;
+  string a = 3;
+  string b = 4;
+  string c = 5;
+  string d = 6;
 }
 
 message ClientMessage {
